@@ -1,0 +1,71 @@
+/* Given an integer array of nums and an integer X(Window size -1), 
+return true if there are duplicate values in that Window(X)
+X size is always == abs(i - j)    where i and j are two two 
+distinct indices of array.
+
+Sample Input/output
+------------------
+input:
+--------------
+array size
+array elements
+X   
+output:
+-----------
+true
+
+Example 1:
+Input: 4            
+1 2 3 1  
+3       
+Output: true
+
+case 2:
+Input: 6
+1 2 3 1 2 3
+2
+Output: false
+*/
+import java.util.*;
+public class test{
+    private static boolean ck(int[]arr,int w){
+        int f=0;
+        ArrayList<Integer>al=new ArrayList<>();
+        for(int i=0;i<w;i++){
+            al.add(arr[i]);
+        }
+        f+=ck1(al);
+        for(int i=w;i<arr.length;i++){
+            al.remove(0);
+            al.add(arr[i]);
+            f+=ck1(al);
+        }
+        if(f<1){
+            return false;
+        }
+        return true;
+    }
+    private static int ck1(ArrayList<Integer>al){
+        int f=0;
+        ArrayList<Integer>l=new ArrayList<>();
+        for(int i:al){
+            if(!l.contains(i)){
+                l.add(i);
+            }
+            else{
+                f=1;
+            }
+        }
+        return f;
+    }
+    public static void main (String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        int[]arr=new int[n];
+        for(int i=0;i<n;i++){
+            arr[i]=sc.nextInt();
+        }
+        int x=sc.nextInt();
+        System.out.println(ck(arr,x+1));
+    }
+}
