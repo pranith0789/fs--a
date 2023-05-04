@@ -1,0 +1,87 @@
+/*
+There are n computers numbered from 0 to n - 1 connected by ethernet cables connections forming a network where connections[i] = [ai, bi]
+ represents a connection between computers ai and bi. Any computer can reach any other computer directly or indirectly through the network.
+
+You are given an initial computer network connections. You can extract certain cables between two directly connected computers, and place them between any pair of disconnected computers to make them directly connected.
+
+Return the minimum number of times you need to do this in order to make all the computers connected. If it is not possible, return -1.
+input = number of nodes n 
+number of edges m
+m number of edges 
+output = integer 
+
+sample cases:
+input =
+4
+3
+0 1
+0 2
+1 2
+output = 1
+case 2:
+input = 6
+5
+0 1
+0 2
+0 3
+1 2
+1 3
+output = 2
+ */
+import java.util.*;
+public class test{
+    static int p[];
+    static int r[];
+    public static void main (String[] args) {
+        Scanner sc=new Scanner(System.in);
+        int n=sc.nextInt();
+        p=new int[n];
+        r=new int[n];
+        for(int i=0;i<n;i++){
+            p[i]=i;
+        }
+        int m=sc.nextInt();
+        for(int i=0;i<m;i++){
+            int t1=sc.nextInt();
+            int t2=sc.nextInt();
+            union(t1,t2);
+        }
+        int c=0;
+        for(int i=0;i<n;i++){
+            if(p[i]==i){
+                c++;
+            }
+        }
+        if(m<n-1){
+            System.out.println(-1);
+        }
+        else{
+            System.out.println(c-1);
+        }
+        
+    }
+    static int findp(int a){
+        if(p[a]==a){
+            return a;
+        }
+        p[a]=findp(p[a]);
+        return p[a];
+    }
+    static void union(int a,int b){
+        int p1=findp(a);
+        int p2=findp(b);
+        if(p1==p2){
+            return;
+        }
+        if(r[p1]>r[p2]){
+            p[p2]=p1;
+        }
+        else if(r[p1]<r[p2]){
+            p[p1]=p2;
+        }
+        else{
+            p[p2]=p1;
+            r[p1]=1+r[p1];
+        }
+    }
+}
